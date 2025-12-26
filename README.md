@@ -284,6 +284,6 @@ Access Grafana at `http://localhost:30030` (in Kubernetes)
 
 This project is for educational purposes as part of the MLOps course assignment.
 
-## 👤 Author
+## 👤 Author - MAHESHWARI ADITYA LALCHAND (2024AA05822)
 
 **Assignment for BITS Pilani - MLOps Course (S1-25_AIMLCZG523)**
