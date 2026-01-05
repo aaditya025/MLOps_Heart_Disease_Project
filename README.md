@@ -83,7 +83,28 @@ mlops-heart-disease/
 - Kubernetes (Minikube/Docker Desktop) for deployment
 - Git
 
-### Local Setup
+### ⚡️ Quick Start (Recommended)
+
+ **The project is containerized using Docker for easy replication.**
+
+ 1. **Clone the Repository:**
+ ```bash
+ git clone https://github.com/aaditya025/MLOps_Heart_Disease_Project.git
+ cd MLOps_Heart_Disease_Project
+ ```
+
+ 2. **Start the Application:**
+ Run the provided helper script to build and launch the entire stack (API, Prometheus, Grafana, and Traffic Generator):
+ ```bash
+ ./start.sh
+ ```
+
+ 3. **Access the Endpoints:**
+ * **User Interface:** [http://localhost:8000/ui](http://localhost:8000/ui) (For testing predictions)
+ * **API Documentation:** [http://localhost:8000/docs](http://localhost:8000/docs) (Swagger UI)
+ * **Monitoring Dashboard:** [http://localhost:30030](http://localhost:30030) (Login: admin/admin123)
+
+### 🐍 Manual Python Setup
 
 ```bash
 # Clone repository
