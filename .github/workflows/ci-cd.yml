@@ -1,0 +1,214 @@
+# GitHub Actions CI/CD Pipeline
+# Task 5: CI/CD Pipeline & Automated Testing
+
+name: MLOps CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: '3.11'
+  DOCKER_IMAGE: heart-disease-api
+
+jobs:
+  # Job 1: Code Quality & Linting
+  lint:
+    name: Code Linting
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 black
+      
+      - name: Run flake8
+        run: |
+          flake8 src/ tests/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 src/ tests/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      
+      - name: Check formatting with black
+        run: |
+          black --check --diff src/ tests/ || true
+
+  # Job 2: Unit Tests
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run data tests
+        run: |
+          pytest tests/test_data.py -v --tb=short
+      
+      - name: Run model tests
+        run: |
+          pytest tests/test_model.py -v --tb=short
+      
+      - name: Run API tests
+        run: |
+          pytest tests/test_api.py -v --tb=short
+      
+      - name: Generate coverage report
+        run: |
+          pytest tests/ --cov=src --cov-report=xml --cov-report=html
+      
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: htmlcov/
+
+  # Job 3: Model Training
+  train:
+    name: Model Training
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run EDA
+        run: |
+          python src/eda.py
+      
+      - name: Train model
+        run: |
+          python src/train.py
+      
+      - name: Upload model artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-artifacts
+          path: |
+            models/
+            screenshots/
+            mlruns/
+
+  # Job 4: Docker Build & Push
+  docker:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: train
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download model artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: model-artifacts
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.DOCKER_IMAGE }}:latest .
+          docker build -t ${{ env.DOCKER_IMAGE }}:${{ github.sha }} .
+      
+      - name: Test Docker image
+        run: |
+          docker run -d --name test-container -p 8000:8000 ${{ env.DOCKER_IMAGE }}:latest
+          sleep 10
+          curl -f http://localhost:8000/health || exit 1
+          docker stop test-container
+      
+      - name: Save Docker image
+        run: |
+          docker save ${{ env.DOCKER_IMAGE }}:latest > heart-disease-api.tar
+      
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: heart-disease-api.tar
+
+  # Job 5: Security Scan
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: docker
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download Docker image
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+      
+      - name: Load Docker image
+        run: docker load < heart-disease-api.tar
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.DOCKER_IMAGE }}:latest'
+          format: 'table'
+          exit-code: '0'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
+
+  # Job 6: Deploy (Manual trigger for production)
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [docker, security]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download Docker image
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+      
+      - name: Deploy notification
+        run: |
+          echo "Deployment ready for production"
+          echo "Docker image: ${{ env.DOCKER_IMAGE }}:${{ github.sha }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref_name }}"

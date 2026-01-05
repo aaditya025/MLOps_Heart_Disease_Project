@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Mac
+.DS_Store
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# Project specific
+traffic.log
+*.tar
+mlruns/
+npm-debug.log
+
+# Ide
+.idea/
+.vscode/
