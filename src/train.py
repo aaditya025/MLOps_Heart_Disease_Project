@@ -172,8 +172,15 @@ class HeartDiseaseModel:
     def train_with_mlflow(self):
         """Train models with MLflow experiment tracking."""
         # Set up MLflow
-        mlflow.set_tracking_uri(f"file://{os.path.join(BASE_DIR, 'mlruns')}")
-        mlflow.set_experiment("heart_disease_prediction")
+        mlflow_dir = os.path.join(BASE_DIR, 'mlruns')
+        mlflow.set_tracking_uri(f"file://{mlflow_dir}")
+        
+        # Use a different experiment name in CI to avoid path conflicts with committed mlruns
+        exp_name = "heart_disease_prediction"
+        if os.environ.get('GITHUB_ACTIONS'):
+            exp_name += "_ci"
+            
+        mlflow.set_experiment(exp_name)
         
         # Load and split data
         X, y = self.load_data()
