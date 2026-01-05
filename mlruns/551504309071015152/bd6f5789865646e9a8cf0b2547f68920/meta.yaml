@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/aaditya/Downloads/files-2/MLOps_Heart_Disease_Project/mlruns/551504309071015152/bd6f5789865646e9a8cf0b2547f68920/artifacts
+end_time: 1767632432454
+entry_point_name: ''
+experiment_id: '551504309071015152'
+lifecycle_stage: active
+run_id: bd6f5789865646e9a8cf0b2547f68920
+run_name: Gradient Boosting
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767632427345
+status: 3
+tags: []
+user_id: aaditya

@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/aaditya/Downloads/files-2/MLOps_Heart_Disease_Project/mlruns/551504309071015152/ba0fef618df64de88ac8927f495b7481/artifacts
+end_time: 1767632427343
+entry_point_name: ''
+experiment_id: '551504309071015152'
+lifecycle_stage: active
+run_id: ba0fef618df64de88ac8927f495b7481
+run_name: Random Forest
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767632420271
+status: 3
+tags: []
+user_id: aaditya

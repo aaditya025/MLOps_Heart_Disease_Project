@@ -25,7 +25,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
-COPY src/app.py /app/src/app.py
+COPY src/ /app/src/
 COPY models/ /app/models/
 
 # Create non-root user

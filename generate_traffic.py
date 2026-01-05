@@ -24,7 +24,7 @@ def generate_patient():
     }
 
 print("Generating traffic for Heart Disease API...")
-for i in range(20):
+for i in range(1000):
     patient = generate_patient()
     try:
         response = requests.post(url, json=patient)

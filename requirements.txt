@@ -37,3 +37,4 @@ black>=23.0.0
 
 # Docker/Kubernetes utilities
 python-multipart>=0.0.6
+requests>=2.31.0

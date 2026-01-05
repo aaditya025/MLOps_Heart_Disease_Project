@@ -1,0 +1,10 @@
+artifact_location: file:///Users/aaditya/Downloads/files-2/MLOps_Heart_Disease_Project/mlruns/551504309071015152/models/m-df237c77d9854683ab80f571ee9ab891/artifacts
+creation_timestamp: 1767632423446
+experiment_id: '551504309071015152'
+last_updated_timestamp: 1767632427337
+model_id: m-df237c77d9854683ab80f571ee9ab891
+model_type: null
+name: random_forest_model
+source_run_id: ba0fef618df64de88ac8927f495b7481
+status: 2
+status_message: null
