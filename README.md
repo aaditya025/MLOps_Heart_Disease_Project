@@ -5,7 +5,7 @@
 This project implements an end-to-end MLOps pipeline for heart disease prediction using the UCI Heart Disease dataset. The solution includes data exploration, model development, experiment tracking, CI/CD pipelines, containerization, and Kubernetes deployment.
 
 **Course:** MLOps (S1-25_AIMLCZG523)  
-**Assignment:** Assignment - I (50Marks)
+**Assignment:** Assignment - I (50 Marks)
 
 ## 🏗️ Architecture
 
