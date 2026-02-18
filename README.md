@@ -310,7 +310,3 @@ This project is for educational purposes as part of the MLOps course assignment.
 **Group Project for BITS Pilani - MLOps Course (S1-25_AIMLCZG523)**
 
 1. **Maheshwari Aditya Lalchand** - [2024AA05822@WILP.BITS-PILANI.AC.IN](mailto:2024AA05822@WILP.BITS-PILANI.AC.IN)
-2. **P Kiran Kumar** - [2024AB05247@WILP.BITS-PILANI.AC.IN](mailto:2024AB05247@WILP.BITS-PILANI.AC.IN)
-3. **Sabarinathan M** - [2024AB05248@WILP.BITS-PILANI.AC.IN](mailto:2024AB05248@WILP.BITS-PILANI.AC.IN)
-4. **Kannan P Nair** - [2024AA05250@WILP.BITS-PILANI.AC.IN](mailto:2024AA05250@WILP.BITS-PILANI.AC.IN)
-5. **Vishal Arora** - [2024AA05008@WILP.BITS-PILANI.AC.IN](mailto:2024AA05008@WILP.BITS-PILANI.AC.IN)
