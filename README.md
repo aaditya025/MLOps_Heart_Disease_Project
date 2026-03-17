@@ -1,4 +1,4 @@
-# Heart Disease Prediction - MLOps Project
+# Heart Disease Prediction - MLOPS Project
 
 ## 📋 Overview
 
